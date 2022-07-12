@@ -3,7 +3,7 @@
 
     <HeaderSearchBar @UserSearchText="getUserResearch" />
 
-    <MainContainer :movies="searchResult"/>
+    <MainContainer :movies="movieSearchResult" :tvSeries="seriesSearchResult"/>
 
   </div>
 </template>
@@ -22,16 +22,25 @@ export default {
   },
   data() {
     return {
-      searchResult: [],
-      url: "https://api.themoviedb.org/3/search/movie?api_key=87180478188b642fd7902412da281198&language=it&query="
+      movieSearchResult: [],
+      seriesSearchResult: [],
+      movieUrl: "https://api.themoviedb.org/3/search/movie?api_key=87180478188b642fd7902412da281198&language=it&query=",
+      seriesUrl: "https://api.themoviedb.org/3/search/tv?api_key=87180478188b642fd7902412da281198&language=it_IT&query="
     }
   },
   methods: {
     getUserResearch(research) {
       const userResearch = research.toLowerCase().replace(/ /g, "+");
-      
-      axios.get(this.url + userResearch).then((result) => {
-        this.searchResult = result.data.results
+
+      axios.get(this.movieUrl + userResearch).then((result) => {
+        this.movieSearchResult = result.data.results
+      })
+      .catch((err) => {
+        console.log(`Error ${err}`)
+      });
+
+      axios.get(this.seriesUrl + userResearch).then((result) => {
+        this.seriesSearchResult = result.data.results
       })
       .catch((err) => {
         console.log(`Error ${err}`)

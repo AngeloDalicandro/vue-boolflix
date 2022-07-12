@@ -7,6 +7,13 @@
                 <img :src="languageImgUrl + enIsNotANation(movie.original_language)" :alt="`Original language: ${language[movie.original_language]}`">
                 {{ movie.vote_average }}
             </li>
+
+            <li v-for="series in tvSeries" :key="series.id">
+                {{ series.name }}
+                {{ series.original_name }}
+                <img :src="languageImgUrl + enIsNotANation(series.origin_country[0])" :alt="`Original language: ${language[series.original_language]}`">
+                {{ series.vote_average }}
+            </li>
         </ul>
     </div>
 </template>
@@ -23,12 +30,15 @@ export default {
         }
     },
     props: {
-        movies: Array
+        movies: Array,
+        tvSeries: Array
     },
     methods: {
         enIsNotANation(x) {
             if( x === "en") {
                 return "gb"
+            } else if( x === "ko") {
+                return "kr"
             } else {
                 return x
             }
