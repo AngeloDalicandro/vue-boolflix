@@ -57,4 +57,12 @@ export default {
     box-sizing: border-box;
   }
 
+  body {
+    background-color: #434343;
+  }
+
+  img {
+    max-width: 100%;
+  }
+
 </style>
