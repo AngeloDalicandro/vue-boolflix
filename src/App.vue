@@ -1,14 +1,16 @@
 <template>
   <div id="app">
 
-    <HeaderSearchBar @UserSearchText="searchThis" />
+    <HeaderSearchBar @UserSearchText="getUserResearch" />
 
-    <MainContainer :searchedText="userResearch" />
+    <MainContainer :movies="searchResult"/>
 
   </div>
 </template>
 
 <script>
+import axios from "axios";
+
 import MainContainer from './components/MainContainer.vue';
 import HeaderSearchBar from './components/HeaderSearchBar.vue';
 
@@ -20,13 +22,21 @@ export default {
   },
   data() {
     return {
-      userResearch: '',
+      searchResult: [],
+      url: "https://api.themoviedb.org/3/search/movie?api_key=87180478188b642fd7902412da281198&language=it&query="
     }
   },
   methods: {
-    searchThis(pippo) {
-      this.userResearch = pippo.toLowerCase().replace(/ /g, "-");
-    }
+    getUserResearch(research) {
+      const userResearch = research.toLowerCase().replace(/ /g, "+");
+      
+      axios.get(this.url + userResearch).then((result) => {
+        this.searchResult = result.data.results
+      })
+      .catch((err) => {
+        console.log(`Error ${err}`)
+      });
+    },    
   }
 }
 </script>

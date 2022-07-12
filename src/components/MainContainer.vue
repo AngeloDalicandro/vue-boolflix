@@ -1,12 +1,13 @@
 <template>
     <div class="container">
-
         <ul>
-
-            <li></li>
-
+            <li v-for="movie in movies" :key="movie.id">
+                {{ movie.title }}
+                {{ movie.original_title }}
+                {{ movie.original_language }}
+                {{ movie.vote_average }}
+            </li>
         </ul>
-
     </div>
 </template>
 
@@ -15,11 +16,11 @@ export default {
     name: "MainContainer",
     data() {
         return {
-
+             
         }
     },
     props: {
-        searchedText: String,
+        movies: Array
     },
     methods: {
         

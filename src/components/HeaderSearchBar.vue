@@ -22,7 +22,6 @@ export default {
     methods: {
         searchText(x) {
             this.$emit('UserSearchText', x)
-            console.log(x)
         }
     }
 }
