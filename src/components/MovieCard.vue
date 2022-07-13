@@ -4,7 +4,7 @@
         <img class="poster" v-if="didLoad === true" :src="productImgUrl + movie.poster_path" @error="pictureLoadingError" :alt="movie.title">
         <img class="poster" v-else :src="productImgUrl + movie.backdrop_path"  :alt="movie.title">
 
-        <div class="product-info">
+        <div @mouseleave="resetVisibility()" class="product-info">
             <div class="title"> <b>Titolo:</b> {{ movie.title }} </div>
             <div class="original-title"> <b>Titolo originale:</b> {{ movie.original_title }} </div>
             <div class="language">
@@ -83,6 +83,9 @@ export default {
             });
 
             this.actorsVisibility = !this.actorsVisibility;
+        },
+        resetVisibility() {
+            this.actorsVisibility = false;
         }
     }
 }
