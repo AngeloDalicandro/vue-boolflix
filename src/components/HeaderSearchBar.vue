@@ -2,68 +2,82 @@
     <header>
         <h1>BoolFlix</h1>
 
-        <div class="search">
-            <input @keyup.enter="searchText(searchedText)" v-model="searchedText" type="text">
-            <button @click="searchText(searchedText)">Cerca</button>
+        <div v-if="thisSearchGenres.length > 1" class="genre-filter">
+            <label for="filter-by-genre">Generi:</label>
+            <select v-model="selectedGenre" @change="changeGenre(selectedGenre)" name="filter-by-genre" id="filter-by-genre">
+                <option v-for="genre in thisSearchGenres" :key="genre.id" :value="genre.id">{{ genre.name }}</option> 
+            </select>
         </div>
 
-        <div class="genre-filter">
-            <label for="filter-by-genre">Generi:</label>
-            <select name="filter-by-genre" id="filter-by-genre">
-                <!-- <option v-for="genre in thisSearchGenres" key="index" value=""></option> -->
-            </select>
+        <div class="search">
+            <input @keyup.enter="searchText(searchedText), setAllGenres()" v-model="searchedText" type="text">
+            <button @click="searchText(searchedText), setAllGenres()">Cerca</button>
         </div>
     </header>
 </template>
 
 <script>
-import axios from "axios";
+import moviesGenres from "../assets/moviesGenres.json";
+import seriesGenres from "../assets/seriesGenres.json";
 
 export default {
     name: "HeaderSearchBar",
     data() {
         return {
             searchedText: "",
-            genresUrl: "https://api.themoviedb.org/3/genre/movie/list?api_key=87180478188b642fd7902412da281198&language=en-US",
-            allGenres : [],
+            moviesGenres: moviesGenres.genres,
+            seriesGenres: seriesGenres.genres,
+            selectedGenre: 420,
         }
     },
     props: {
         movies: Array,
         tvSeries: Array
     },
-    created: {
-        getGenres() {
-            axios.get(this.genresUrl).then((result) => {
-                this.allGenres = result.data;
-            })
-            .catch((err) => {
-                console.log(`Error ${err}`)
-            });
-        }
-    },
     computed: {
-        ThisSearchGenres() {
-            let thisSearchGenres = ["Tutti"];
+        thisSearchGenres() {
+            let thisSearchGenres = [];
 
-            this.movies.forEach((movie) =>
+            this.movies.forEach((movie) => {
                 movie.genre_ids.forEach((genre) => {
-                    thisSearchGenres.push(genre);
+                    if(!thisSearchGenres.includes(genre)) {
+                        thisSearchGenres.push(genre);
+                    }
                 })
-            );
-            this.tvSeries.forEach((series) =>
+            });
+            this.tvSeries.forEach((series) =>{
                 series.genre_ids.forEach((genre) => {
-                    thisSearchGenres.push(genre);
+                    if(!thisSearchGenres.includes(genre)) {
+                        thisSearchGenres.push(genre)
+                    }
                 })
-            );
+            });
 
-            return thisSearchGenres;
+            let filteredGenres = [{name: "Tutti i generi", id: 420}];
+
+            let allGenres = [...this.moviesGenres, this.seriesGenres]
+
+            allGenres.forEach((element) => {
+                if(thisSearchGenres.includes(element.id)) {
+                    if(!filteredGenres.includes(element)){
+                        filteredGenres.push(element)
+                    } 
+                }
+            });
+
+            return filteredGenres; 
         }
     },
     methods: {
         searchText(x) {
             this.$emit('UserSearchText', x)
         },
+        changeGenre(x) {
+            this.$emit('changedGenre', x)
+        },
+        setAllGenres() {
+            this.selectedGenre = 420;
+        }
     }
 }
 </script>
@@ -91,6 +105,10 @@ export default {
 
         button {
             padding: 0.25rem 1rem ;
+        }
+
+        select {
+            padding: 0.25rem 1rem;
         }
     }
 </style>

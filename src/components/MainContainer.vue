@@ -5,7 +5,7 @@
             <h2>Film</h2>
 
             <ul>
-                <MovieCard v-for="singleMovie in movies" :key="singleMovie.id"
+                <MovieCard v-for="singleMovie in filteredMoviesByGenre" :key="singleMovie.id"
                 :movie="singleMovie"
                 />
             </ul>
@@ -16,7 +16,7 @@
             <h2>Serie TV</h2>
 
             <ul>
-                <SeriesCard v-for="singleSeries in tvSeries" :key="singleSeries.id"
+                <SeriesCard v-for="singleSeries in filteredSeriesByGenre" :key="singleSeries.id"
                 :series="singleSeries"
                 />
             </ul>
@@ -39,9 +39,43 @@ export default {
     },
     props: {
         movies: Array,
-        tvSeries: Array
+        tvSeries: Array,
+        userSelectedGenre: Number
     },
-}
+    computed: {
+        filteredMoviesByGenre() {
+            let filterArray = []; 
+            if(this.userSelectedGenre === 420) {
+                return this.movies;
+            } else {
+                this.movies.forEach((movie) => {
+                    movie.genre_ids.forEach((genre) => {
+                        if(this.userSelectedGenre === genre) {
+                            filterArray.push(movie);
+                        }
+                    })
+                })
+                return filterArray;
+            }
+            
+        },
+        filteredSeriesByGenre() {
+            let filterArray = []; 
+            if(this.userSelectedGenre === 420) {
+                filterArray = this.tvSeries;
+            } else {
+                this.tvSeries.forEach((series) => {
+                    series.genre_ids.forEach((genre) => {
+                        if(this.userSelectedGenre === genre) {
+                            filterArray.push(series);
+                        }
+                    })
+                })
+            }
+            return filterArray
+        }
+    }
+}    
 </script>
 
 <style lang="scss" scoped>

@@ -17,7 +17,16 @@
                 <span v-for="emptyStar, index in ( maxVote - fromTenToFive(series.vote_average))" :key="`emptystar-${index}`"><font-awesome-icon icon="fa-regular fa-star"/></span> 
             </div>
             <div class="overview"> <b>Trama:</b> {{ series.overview }} </div>
-
+            <div class="genre"> <b>Generi:</b> 
+                <div v-for="genre, index in series.genre_ids" :key="index"> 
+                    <div v-for="genericGenre in seriesGenres.genres" :key="genericGenre.id">
+                        <div v-if="genericGenre.id === genre">
+                            {{ genericGenre.name }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+             
             <div class="actors">
                 <button @click="getActors(series.id)">Guarda gli attori principali</button>
                 <div v-show="actorsVisibility" v-if="actors.length > 0">
@@ -42,6 +51,7 @@
 <script>
 import languagesList from "../assets/languages.json";
 import axios from "axios";
+import seriesGenres from "../assets/seriesGenres.json";
 
 export default {
     name: "SeriesCard",
@@ -53,7 +63,8 @@ export default {
             productImgUrl: "https://image.tmdb.org/t/p/w342",
             didLoad: true,
             actors: [],
-            actorsVisibility: false
+            actorsVisibility: false,
+            seriesGenres: seriesGenres
         }
     },
     props: {
