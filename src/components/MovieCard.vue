@@ -2,10 +2,12 @@
     
 
     <li >
-        <img class="poster" :src="productImgUrl + movie.poster_path" :alt="movie.title">
+        <img class="poster" v-if="didLoad === true" :src="productImgUrl + movie.poster_path" @error="pictureLoadingError" :alt="movie.title">
+        <img class="poster" v-else :src="productImgUrl + movie.backdrop_path"  :alt="movie.title">
+
         <div class="product-info">
             <div class="title"> <b>Titolo:</b> {{ movie.title }} </div>
-            <div class="original-title"> <b>Titolo originale:</b> {{ movie.original_title }} S</div>
+            <div class="original-title"> <b>Titolo originale:</b> {{ movie.original_title }} </div>
             <div class="language">
                 <b>Lingua:</b>
                 <img :src="languageImgUrl + enIsNotANation(movie.original_language)" :alt="`Original language: ${language[movie.original_language]}`">
@@ -31,7 +33,8 @@ export default {
             maxVote: 5,
             language: languagesList,
             languageImgUrl: "https://countryflagsapi.com/svg/",
-            productImgUrl: "https://image.tmdb.org/t/p/w342"
+            productImgUrl: "https://image.tmdb.org/t/p/w342",
+            didLoad: true
         }
     },
     props: {
@@ -49,6 +52,9 @@ export default {
         },
         fromTenToFive(number) {
             return Math.round(number / 2)
+        },
+        pictureLoadingError() {
+            this.didLoad = false;
         }
     }
 }

@@ -1,25 +1,26 @@
 <template>
     <div class="container">
 
-        <h2>Film</h2>
+        <div v-if="movies.length">
+            <h2>Film</h2>
 
-        <ul>
-            <MovieCard v-for="movie in movies" :key="movie.id"
-            :movie="movie"
-            />
-        </ul>
+            <ul>
+                <MovieCard v-for="movie in movies" :key="movie.id"
+                :movie="movie"
+                />
+            </ul>
+        </div>
         
-        <h2>Serie TV</h2>
+        <div v-if="tvSeries.length">
+            <h2>Serie TV</h2>
 
-        <ul>
-            <SeriesCard v-for="series in tvSeries" :key="series.id"
-            :series="series"
-            />
-        </ul>
+            <ul>
+                <SeriesCard v-for="series in tvSeries" :key="series.id"
+                :series="series"
+                />
+            </ul>
+        </div>
 
-        <ul>
-
-        </ul>
     </div>    
 
 </template>

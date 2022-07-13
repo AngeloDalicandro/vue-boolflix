@@ -1,7 +1,8 @@
 <template>
     <li>
 
-        <img class="poster" :src="productImgUrl + series.poster_path" :alt="series.name">
+        <img class="poster" v-if="didLoad === true" :src="productImgUrl + series.poster_path" @error="pictureLoadingError" :alt="series.name">
+        <img class="poster" v-else :src="productImgUrl + series.backdrop_path"  :alt="serie.name">
 
         <div class="product-info">
             <div class="title"> <b>Titolo: </b> {{ series.name }} </div>
@@ -31,7 +32,8 @@ export default {
             maxVote: 5,
             language: languagesList,
             languageImgUrl: "https://countryflagsapi.com/svg/",
-            productImgUrl: "https://image.tmdb.org/t/p/w342"
+            productImgUrl: "https://image.tmdb.org/t/p/w342",
+            didLoad: true
         }
     },
     props: {
@@ -49,6 +51,9 @@ export default {
         },
         fromTenToFive(number) {
             return Math.round(number / 2)
+        },
+        pictureLoadingError() {
+            this.didLoad = false;
         }
     }
 }
