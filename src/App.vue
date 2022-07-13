@@ -1,7 +1,7 @@
 <template>
   <div id="app">
 
-    <HeaderSearchBar @UserSearchText="getUserResearch" />
+    <HeaderSearchBar @UserSearchText="getUserResearch" :movies="movieSearchResult" :tvSeries="seriesSearchResult"/>
 
     <MainContainer :movies="movieSearchResult" :tvSeries="seriesSearchResult"/>
 

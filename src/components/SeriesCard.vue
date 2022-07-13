@@ -13,20 +13,24 @@
             </div>
             <div class="votes">
                 <b>Voto:</b>
-                <span v-for="star, index in fromTenToFive(series.vote_average)" :key="index"><font-awesome-icon icon="fa-solid fa-star"/></span>
-                <span v-for="emptyStar, index in ( maxVote - fromTenToFive(series.vote_average))" :key="index"><font-awesome-icon icon="fa-regular fa-star"/></span> 
+                <span v-for="star, index in fromTenToFive(series.vote_average)" :key="`fullstar-${index}`"><font-awesome-icon icon="fa-solid fa-star"/></span>
+                <span v-for="emptyStar, index in ( maxVote - fromTenToFive(series.vote_average))" :key="`emptystar-${index}`"><font-awesome-icon icon="fa-regular fa-star"/></span> 
             </div>
             <div class="overview"> <b>Trama:</b> {{ series.overview }} </div>
 
             <div class="actors">
                 <button @click="getActors(series.id)">Guarda gli attori principali</button>
-                <div v-show="actorsVisibility">
+                <div v-show="actorsVisibility" v-if="actors.length > 0">
                     <div v-for="actor in actors" :key="actor.id">
                         <div>
-                            Personaggio: {{ actor.character }} <br>
-                            Attore: {{ actor.name }}
+                            <b>Personaggio:</b> {{ actor.character }} <br>
+                            <b>Attore:</b> {{ actor.name }}
                         </div>
                     </div>
+                </div>
+
+                <div v-show="actorsVisibility" v-else>
+                    Non sono disponibili le informazioni richieste, ci dispiace.
                 </div>
             </div>
 
