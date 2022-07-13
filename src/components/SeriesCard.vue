@@ -2,7 +2,7 @@
     <li>
 
         <img class="poster" v-if="didLoad === true" :src="productImgUrl + series.poster_path" @error="pictureLoadingError" :alt="series.name">
-        <img class="poster" v-else :src="productImgUrl + series.backdrop_path"  :alt="serie.name">
+        <img class="poster" v-else :src="productImgUrl + series.backdrop_path"  :alt="series.name">
 
         <div class="product-info">
             <div class="title"> <b>Titolo: </b> {{ series.name }} </div>
@@ -66,6 +66,8 @@ export default {
         width: 342px;
         height: 487px;
         overflow-y: hidden;
+        background-color: white;
+
         .product-info {
             display: none;
             height: 100%;
@@ -73,6 +75,7 @@ export default {
             color: white;
             padding: 1rem;
             overflow-y: auto;
+
             img.poster {
                 height: 100%;
             }

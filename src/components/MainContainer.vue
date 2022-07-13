@@ -5,20 +5,22 @@
             <h2>Film</h2>
 
             <ul>
-                <MovieCard v-for="movie in movies" :key="movie.id"
-                :movie="movie"
+                <MovieCard v-for="singleMovie in movies" :key="singleMovie.id"
+                :movie="singleMovie"
                 />
             </ul>
+
         </div>
         
         <div v-if="tvSeries.length">
             <h2>Serie TV</h2>
 
             <ul>
-                <SeriesCard v-for="series in tvSeries" :key="series.id"
-                :series="series"
+                <SeriesCard v-for="singleSeries in tvSeries" :key="singleSeries.id"
+                :series="singleSeries"
                 />
             </ul>
+
         </div>
 
     </div>    
@@ -38,7 +40,7 @@ export default {
     props: {
         movies: Array,
         tvSeries: Array
-    }
+    },
 }
 </script>
 
@@ -54,6 +56,7 @@ export default {
     ul {
         list-style-type: none;
         display: flex;
+        justify-content: space-evenly;
         flex-wrap: wrap;
     }
 }

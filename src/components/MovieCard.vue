@@ -1,7 +1,6 @@
 <template>
     
-
-    <li >
+    <li>
         <img class="poster" v-if="didLoad === true" :src="productImgUrl + movie.poster_path" @error="pictureLoadingError" :alt="movie.title">
         <img class="poster" v-else :src="productImgUrl + movie.backdrop_path"  :alt="movie.title">
 
