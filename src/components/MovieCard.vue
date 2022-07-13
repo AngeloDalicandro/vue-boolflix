@@ -60,40 +60,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-    li {
-        margin: 1rem;
-        position: relative;
-        width: 342px;
-        height: 487px;
-        overflow-y: hidden;
-        .product-info {
-            display: none;
-            height: 100%;
-            width: 100%;
-            color: white;
-            padding: 1rem;
-            overflow-y: auto;
-            img.poster {
-                height: 100%;
-            }
-            div {
-                margin-bottom: 1rem;
-            }
-            .votes {
-                color: yellow;
-            }
-            .language img {
-                width: 1.5rem;
-                vertical-align: middle;
-                margin-left: 0.25rem;
-            }
-        }
-        &:hover .product-info {
-            display: block;
-            background-color: black;
-            position: absolute;
-            top: 0;
-            left: 0;
-        }
-    }
+    @import "../styles/cards-style";
 </style>
