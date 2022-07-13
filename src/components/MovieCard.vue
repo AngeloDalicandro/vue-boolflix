@@ -17,6 +17,18 @@
                 <span v-for="emptyStar, index in ( maxVote - fromTenToFive(movie.vote_average))" :key="index"><font-awesome-icon icon="fa-regular fa-star"/></span> 
             </div>
             <div class="overview"> <b>Trama:</b> {{ movie.overview }}</div>
+
+            <div class="actors">
+                <button @click="getActors(movie.id)">Guarda gli attori principali</button>
+                <div v-show="actorsVisibility">
+                    <div v-for="actor in actors" :key="actor.id">
+                        <div>
+                        Personaggio: {{ actor.character }} <br>
+                        Attore: {{ actor.name }}
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </li>
     
@@ -24,6 +36,7 @@
 
 <script>
 import languagesList from "../assets/languages.json";
+import axios from "axios";
 
 export default {
     name: "MainContainer",
@@ -33,7 +46,9 @@ export default {
             language: languagesList,
             languageImgUrl: "https://countryflagsapi.com/svg/",
             productImgUrl: "https://image.tmdb.org/t/p/w342",
-            didLoad: true
+            didLoad: true,
+            actors: [],
+            actorsVisibility: false
         }
     },
     props: {
@@ -54,6 +69,20 @@ export default {
         },
         pictureLoadingError() {
             this.didLoad = false;
+        },
+        getActors(id) {
+            this.actors = [];
+
+            axios.get(`https://api.themoviedb.org/3/movie/${id}/credits?api_key=87180478188b642fd7902412da281198&language=it-IT`).then( (credits) => {
+                for( let i = 0; i < 5; i++){
+                    this.actors.push(credits.data.cast[i]);
+                }
+            })
+            .catch((err) => {
+            console.log(`Error ${err}`)
+            });
+
+            this.actorsVisibility = !this.actorsVisibility;
         }
     }
 }
